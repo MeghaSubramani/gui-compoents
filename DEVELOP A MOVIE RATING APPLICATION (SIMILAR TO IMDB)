@@ -1,0 +1,167 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MovieApp());
+}
+
+class MovieApp extends StatelessWidget {
+  const MovieApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Movie Rating App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        useMaterial3: false,
+      ),
+      home: const MovieScreen(),
+    );
+  }
+}
+
+class Movie {
+  String title;
+  String genre;
+  double imdb;
+  int userRating;
+  String emoji;
+
+  Movie({
+    required this.title,
+    required this.genre,
+    required this.imdb,
+    required this.userRating,
+    required this.emoji,
+  });
+}
+
+class MovieScreen extends StatefulWidget {
+  const MovieScreen({super.key});
+
+  @override
+  State<MovieScreen> createState() => _MovieScreenState();
+}
+
+class _MovieScreenState extends State<MovieScreen> {
+  final List<Movie> movies = [
+    Movie(
+        title: "Leo",
+        genre: "Action",
+        imdb: 8.3,
+        userRating: 4,
+        emoji: "🎬"),
+    Movie(
+        title: "Vikram",
+        genre: "Thriller",
+        imdb: 8.6,
+        userRating: 5,
+        emoji: "🔥"),
+    Movie(
+        title: "Master",
+        genre: "Drama",
+        imdb: 7.8,
+        userRating: 3,
+        emoji: "🎥"),
+    Movie(
+        title: "KGF 2",
+        genre: "Action",
+        imdb: 8.5,
+        userRating: 5,
+        emoji: "⭐"),
+  ];
+
+  Widget buildStars(Movie movie) {
+    return Row(
+      children: List.generate(5, (index) {
+        return IconButton(
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
+          icon: Icon(
+            index < movie.userRating
+                ? Icons.star
+                : Icons.star_border,
+            color: Colors.amber,
+          ),
+          onPressed: () {
+            setState(() {
+              movie.userRating = index + 1;
+            });
+          },
+        );
+      }),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Movie Rating App"),
+        centerTitle: true,
+      ),
+      body: ListView.builder(
+        itemCount: movies.length,
+        itemBuilder: (context, index) {
+          Movie movie = movies[index];
+
+          return Card(
+            margin: const EdgeInsets.all(10),
+            elevation: 5,
+            child: Padding(
+              padding: const EdgeInsets.all(15),
+              child: Row(
+                children: [
+
+                  CircleAvatar(
+                    radius: 35,
+                    child: Text(
+                      movie.emoji,
+                      style: const TextStyle(fontSize: 30),
+                    ),
+                  ),
+
+                  const SizedBox(width: 15),
+
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                      children: [
+
+                        Text(
+                          movie.title,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        const SizedBox(height: 5),
+
+                        Text(
+                          "Genre : ${movie.genre}",
+                          style: const TextStyle(fontSize: 16),
+                        ),
+
+                        Text(
+                          "IMDb Rating : ${movie.imdb}",
+                          style: const TextStyle(fontSize: 16),
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        buildStars(movie),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
