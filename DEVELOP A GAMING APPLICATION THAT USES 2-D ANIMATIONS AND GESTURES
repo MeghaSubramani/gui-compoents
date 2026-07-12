@@ -1,0 +1,152 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const AnimationApp());
+}
+
+class AnimationApp extends StatelessWidget {
+  const AnimationApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: '2D Animation & Gestures',
+      theme: ThemeData(useMaterial3: false),
+      home: const AnimationScreen(),
+    );
+  }
+}
+
+class AnimationScreen extends StatefulWidget {
+  const AnimationScreen({super.key});
+
+  @override
+  State<AnimationScreen> createState() => _AnimationScreenState();
+}
+
+class _AnimationScreenState extends State<AnimationScreen> {
+  double left = 120;
+  double top = 220;
+  double size = 100;
+  Color color = Colors.blue;
+
+  void move(double dx, double dy) {
+    setState(() {
+      left += dx;
+      top += dy;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("2D Animation & Gestures"),
+        backgroundColor: Colors.blue,
+      ),
+      body: GestureDetector(
+        onTap: () {
+          setState(() {
+            color =
+                color == Colors.blue ? Colors.deepOrange : Colors.blue;
+          });
+        },
+        onDoubleTap: () {
+          setState(() {
+            size = size == 100 ? 150 : 100;
+          });
+        },
+        onPanUpdate: (details) {
+          setState(() {
+            left += details.delta.dx;
+            top += details.delta.dy;
+          });
+        },
+        child: Stack(
+          children: [
+
+            const Positioned(
+              top: 20,
+              left: 20,
+              child: Text(
+                "Single Tap : Change Color\n"
+                "Double Tap : Zoom\n"
+                "Drag : Move Object",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 200),
+              left: left,
+              top: top,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                width: size,
+                height: size,
+                decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.circular(size / 2),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            Positioned(
+              bottom: 25,
+              left: 25,
+              right: 25,
+              child: Column(
+                children: [
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () => move(0, -20),
+                        child: const Text("↑"),
+                      ),
+                    ],
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () => move(-20, 0),
+                        child: const Text("←"),
+                      ),
+                      ElevatedButton(
+                        onPressed: () => move(20, 0),
+                        child: const Text("→"),
+                      ),
+                    ],
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () => move(0, 20),
+                        child: const Text("↓"),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
