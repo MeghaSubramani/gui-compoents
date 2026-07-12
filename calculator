@@ -1,0 +1,128 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: CalculatorPage(),
+    );
+  }
+}
+
+class CalculatorPage extends StatefulWidget {
+  const CalculatorPage({super.key});
+
+  @override
+  State<CalculatorPage> createState() => _CalculatorPageState();
+}
+
+class _CalculatorPageState extends State<CalculatorPage> {
+  final TextEditingController firstController = TextEditingController();
+  final TextEditingController secondController = TextEditingController();
+
+  String result = "";
+
+  void add() {
+    double a = double.tryParse(firstController.text) ?? 0;
+    double b = double.tryParse(secondController.text) ?? 0;
+
+    setState(() {
+      result = "Sum = ${a + b}";
+    });
+  }
+
+  void subtract() {
+    double a = double.tryParse(firstController.text) ?? 0;
+    double b = double.tryParse(secondController.text) ?? 0;
+
+    setState(() {
+      result = "Sub = ${a - b}";
+    });
+  }
+
+  void multiply() {
+    double a = double.tryParse(firstController.text) ?? 0;
+    double b = double.tryParse(secondController.text) ?? 0;
+
+    setState(() {
+      result = "Mul = ${a * b}";
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Native Calculator"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            const Text(
+              "Enter Number 1",
+              style: TextStyle(fontSize: 18),
+            ),
+
+            TextField(
+              controller: firstController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            const Text(
+              "Enter Number 2",
+              style: TextStyle(fontSize: 18),
+            ),
+
+            TextField(
+              controller: secondController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            ElevatedButton(
+              onPressed: add,
+              child: const Text("Add"),
+            ),
+
+            ElevatedButton(
+              onPressed: subtract,
+              child: const Text("Sub"),
+            ),
+
+            ElevatedButton(
+              onPressed: multiply,
+              child: const Text("Mul"),
+            ),
+
+            const SizedBox(height: 20),
+
+            Text(
+              result,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
