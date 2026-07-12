@@ -1,0 +1,116 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: GUIComponents(),
+    );
+  }
+}
+
+class GUIComponents extends StatelessWidget {
+  const GUIComponents({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("GUI Components"),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const TextField(
+                decoration: InputDecoration(
+                  hintText: "Edit Text",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text("Button"),
+              ),
+
+              const SizedBox(height: 10),
+
+              const Row(
+                children: [
+                  Checkbox(value: false, onChanged: null),
+                  Text("Checkbox"),
+                ],
+              ),
+
+              const Row(
+                children: [
+                  Radio<int>(
+                    value: 1,
+                    groupValue: 0,
+                    onChanged: null,
+                  ),
+                  Text("Radio Button"),
+                ],
+              ),
+
+              const Text(
+                "Green Color",
+                style: TextStyle(
+                  color: Colors.green,
+                ),
+              ),
+
+              const Text(
+                "Red Color",
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+
+              const Text(
+                "Blue Color",
+                style: TextStyle(
+                  color: Colors.blue,
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              const Text(
+                "Size 10",
+                style: TextStyle(fontSize: 10),
+              ),
+
+              const Text(
+                "Size 15",
+                style: TextStyle(fontSize: 15),
+              ),
+
+              const Text(
+                "Size 20",
+                style: TextStyle(fontSize: 20),
+              ),
+
+              const Text(
+                "Size 50",
+                style: TextStyle(fontSize: 50),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
